@@ -24,12 +24,6 @@ stages:
         containerRegistry: 'Container Registry Connection'
         tags: |
           $(tag)
-
-    variables:
-      wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-      dotnetSdkVersion: '6.x'
-
-    steps:
     - task: UseDotNet@2
       displayName: 'Use .NET SDK $(dotnetSdkVersion)'
       inputs:
@@ -73,8 +67,12 @@ stages:
         zipAfterPublish: true
 
     - publish: '$(Build.ArtifactStagingDirectory)'
-      artifact: drop
+      artifact: drop      
 
+    variables:
+      wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+      dotnetSdkVersion: '6.x' 
+    
 - stage: 'Deploy'
   displayName: 'Deploy the container'
   dependsOn: Build
